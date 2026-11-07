@@ -1,0 +1,336 @@
+.skills__wrap {
+  display: grid;
+  gap: 40px;
+}
+
+/* ───────────── Mobile first: a vertical spine ───────────── */
+.map {
+  position: relative;
+  display: grid;
+  gap: 0;
+  padding-left: 28px;
+}
+.map__svg {
+  display: none;
+}
+.map::before {
+  /* the spine */
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--line-2);
+  transform-origin: top;
+  transform: scaleY(0);
+  transition: transform 1.4s var(--ease-out);
+}
+.map.is-drawn::before {
+  transform: scaleY(1);
+}
+.map__core {
+  display: grid;
+  gap: 4px;
+  margin-bottom: 20px;
+  padding: 14px 16px;
+  border: 1px solid var(--accent);
+  background: var(--bg);
+}
+.map__core .mono {
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.map__core strong {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 0.98rem;
+  letter-spacing: 0.04em;
+  line-height: 1.25;
+}
+.map__cell {
+  position: relative;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+  transition-delay: calc(0.2s + var(--i) * 0.11s);
+}
+.map.is-drawn .map__cell {
+  opacity: 1;
+  transform: none;
+}
+.map__cell::before {
+  /* branch from the spine */
+  content: '';
+  position: absolute;
+  left: -22px;
+  top: 28px;
+  width: 16px;
+  height: 1px;
+  background: var(--line-2);
+}
+.map__node {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  min-height: 56px;
+  padding: 0 16px;
+  margin-bottom: 8px;
+  text-align: left;
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+  transition: border-color 0.35s, background-color 0.35s;
+  -webkit-tap-highlight-color: transparent;
+}
+.map__node:hover {
+  border-color: var(--line-3);
+}
+.map__node.is-active {
+  border-color: var(--accent);
+}
+.map__idx,
+.map__count {
+  font-size: 11px;
+  color: var(--muted);
+}
+.map__idx {
+  transition: color 0.3s;
+}
+.map__node.is-focus .map__idx {
+  color: var(--accent);
+}
+.map__label {
+  flex: 1;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  letter-spacing: -0.02em;
+}
+.map__inline {
+  display: grid;
+  margin: 0 0 12px;
+  padding-left: 16px;
+  border-left: 1px solid var(--accent);
+}
+.map__inline li,
+.readout li {
+  opacity: 0;
+  transform: translateY(8px);
+  animation: techIn 0.6s var(--ease-out) forwards;
+  animation-delay: calc(var(--k) * 70ms + 60ms);
+}
+.map__inline li {
+  padding: 9px 0;
+  color: var(--ink-2);
+  font-size: 15px;
+  border-bottom: 1px solid var(--line);
+}
+@keyframes techIn {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.readout {
+  display: none;
+}
+
+/* ───────────── Tablet+ : the architecture diagram ───────────── */
+@media (min-width: 768px) {
+  .skills__wrap {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 48px;
+  }
+  .map {
+    display: block;
+    padding-left: 0;
+    aspect-ratio: 100 / 56;
+    border: 1px solid var(--line);
+    background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 8% 14.2857%;
+    background-position: -1px -1px;
+  }
+  .map::before,
+  .map__cell::before {
+    display: none;
+  }
+  .map__svg {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+  .map__spoke,
+  .map__link {
+    fill: none;
+    stroke: var(--line-3);
+    stroke-width: 0.14;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition: stroke-dashoffset 1.3s var(--ease-out), stroke 0.4s, stroke-width 0.4s, opacity 0.4s;
+  }
+  .map__spoke {
+    transition-delay: calc(0.1s + var(--i) * 0.14s), 0s, 0s, 0s;
+    opacity: 0.5;
+  }
+  .map__link {
+    stroke: var(--line-2);
+    stroke-width: 0.1;
+    transition-delay: 0.9s, 0s, 0s, 0s;
+  }
+  .map.is-drawn .map__spoke,
+  .map.is-drawn .map__link {
+    stroke-dashoffset: 0;
+  }
+  .map__spoke.is-hot {
+    stroke: var(--accent);
+    stroke-width: 0.26;
+    opacity: 1;
+  }
+  .map__link.is-hot {
+    stroke: rgba(217, 119, 69, 0.6);
+  }
+  .map__joint {
+    fill: var(--bg);
+    stroke: var(--line-3);
+    stroke-width: 0.12;
+    transition: fill 0.4s, stroke 0.4s;
+  }
+  .map__joint.is-hot {
+    fill: var(--accent);
+    stroke: var(--accent);
+  }
+
+  .map__core {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    margin: 0;
+    padding: 18px 26px;
+    text-align: center;
+    min-width: min(30%, 280px);
+  }
+  .map__core::before,
+  .map__core::after {
+    /* architectural corner ticks */
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border: 1px solid var(--accent);
+  }
+  .map__core::before {
+    left: -6px;
+    top: -6px;
+    border-right: 0;
+    border-bottom: 0;
+  }
+  .map__core::after {
+    right: -6px;
+    bottom: -6px;
+    border-left: 0;
+    border-top: 0;
+  }
+  .map__core strong {
+    font-size: clamp(0.78rem, 1.25vw, 1.02rem);
+  }
+
+  .map__cell {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    z-index: 3;
+    transform: translate(-50%, -50%) scale(0.96);
+  }
+  .map.is-drawn .map__cell {
+    transform: translate(-50%, -50%);
+  }
+  .map__node {
+    width: auto;
+    min-width: clamp(130px, 15vw, 190px);
+    min-height: 46px;
+    margin: 0;
+    padding: 0 14px;
+    gap: 12px;
+  }
+  .map__node.is-focus {
+    border-color: var(--line-3);
+    background: var(--bg-3);
+  }
+  .map__node.is-active {
+    border-color: var(--accent);
+  }
+  .map__label {
+    font-size: clamp(0.88rem, 1.15vw, 1rem);
+    white-space: nowrap;
+  }
+  .map__inline {
+    display: none;
+  }
+
+  /* readout */
+  .readout {
+    display: block;
+    border-top: 1px solid var(--line);
+    padding-top: 28px;
+  }
+  .readout__inner {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: 1fr;
+  }
+  .readout h3 {
+    font-size: clamp(2rem, 4vw, 3.2rem);
+  }
+  .readout__count {
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .readout ul {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 32px;
+    margin-top: 10px;
+  }
+  .readout li {
+    display: flex;
+    gap: 16px;
+    align-items: baseline;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    letter-spacing: -0.015em;
+  }
+  .readout li .mono {
+    font-size: 11px;
+    color: var(--accent);
+  }
+}
+
+@media (min-width: 1100px) {
+  .skills__wrap {
+    grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+    align-items: start;
+    gap: 56px;
+  }
+  .readout {
+    border-top: 0;
+    padding-top: 0;
+    border-left: 1px solid var(--line);
+    padding-left: 40px;
+    min-height: 100%;
+  }
+  .readout ul {
+    grid-template-columns: 1fr;
+  }
+}

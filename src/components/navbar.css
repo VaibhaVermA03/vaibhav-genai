@@ -1,0 +1,210 @@
+/* Glass navbar — transparent over the hero, dark translucent glass once scrolled */
+.nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 100;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  transform: translateY(-12px);
+  border-bottom: 1px solid transparent;
+  transition: opacity 0.9s var(--ease), transform 0.9s var(--ease), background-color 0.5s, border-color 0.5s,
+    box-shadow 0.5s, backdrop-filter 0.5s;
+}
+.nav.is-visible {
+  opacity: 1;
+  transform: none;
+}
+.nav.is-scrolled {
+  background: rgba(16, 16, 15, 0.62);
+  backdrop-filter: blur(22px) saturate(125%);
+  -webkit-backdrop-filter: blur(22px) saturate(125%);
+  border-bottom-color: rgba(240, 237, 229, 0.1);
+  box-shadow: 0 12px 40px -22px rgba(0, 0, 0, 0.7);
+}
+.nav__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+/* typographic wordmark */
+.nav__brand {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  min-height: 44px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.16em;
+  color: var(--ink);
+}
+.nav__brand span {
+  color: var(--muted);
+  transition: color 0.4s;
+}
+.nav__brand:hover span,
+.nav__brand:focus-visible span {
+  color: var(--accent);
+}
+
+.nav__links {
+  display: none;
+  gap: 6px;
+}
+.nav__links a {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 14px;
+  font-size: 14px;
+  color: var(--muted);
+  transition: color 0.3s;
+}
+.nav__label {
+  position: relative;
+  background: linear-gradient(currentColor, currentColor) left bottom / 0% 1px no-repeat;
+  padding-bottom: 3px;
+  transition: background-size 0.55s var(--ease-out);
+}
+.nav__links a:hover,
+.nav__links a:focus-visible,
+.nav__links a.is-active {
+  color: var(--ink);
+}
+.nav__links a:hover .nav__label {
+  background-size: 100% 1px;
+}
+/* the thin sliding active-section indicator (shared layout animation) */
+.nav__ind {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 6px;
+  height: 1px;
+  background: var(--accent);
+}
+.nav__links a.is-active .nav__label {
+  background-size: 0% 1px;
+}
+
+.nav__right {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.nav .nav__resume {
+  display: none;
+}
+
+/* Hamburger */
+.burger {
+  position: relative;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid var(--line-2);
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color 0.3s;
+}
+.burger:hover {
+  border-color: var(--line-3);
+}
+.burger span {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  height: 1.5px;
+  background: var(--ink);
+  border-radius: 2px;
+  transition: transform 0.5s var(--ease), top 0.5s var(--ease);
+}
+.burger span:nth-child(1) {
+  top: 18px;
+}
+.burger span:nth-child(2) {
+  top: 26px;
+}
+.burger.is-open span:nth-child(1) {
+  top: 22px;
+  transform: rotate(45deg);
+}
+.burger.is-open span:nth-child(2) {
+  top: 22px;
+  transform: rotate(-45deg);
+}
+
+/* Mobile overlay */
+.mnav {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: calc(var(--nav-h) + 24px) var(--pad) max(32px, env(safe-area-inset-bottom));
+  background: var(--bg);
+  overflow-y: auto;
+}
+.mnav nav ul {
+  display: grid;
+}
+.mnav li {
+  border-bottom: 1px solid var(--line);
+}
+.mnav nav a {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  min-height: 64px;
+  padding: 12px 0;
+}
+.mnav__num {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+}
+.mnav__label {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  font-size: clamp(2.2rem, 11vw, 3.4rem);
+  line-height: 1.05;
+  transition: color 0.3s;
+}
+.mnav nav a.is-active .mnav__label {
+  color: var(--accent);
+}
+.mnav__foot {
+  display: grid;
+  gap: 18px;
+  justify-items: start;
+  margin-top: 32px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+@media (min-width: 640px) {
+  .nav .nav__resume {
+    display: inline-flex;
+  }
+}
+@media (min-width: 900px) {
+  .nav__links {
+    display: flex;
+  }
+  .burger {
+    display: none;
+  }
+  .mnav {
+    display: none;
+  }
+}

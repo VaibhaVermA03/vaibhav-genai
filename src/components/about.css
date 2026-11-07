@@ -1,0 +1,74 @@
+.about__grid {
+  display: grid;
+  gap: clamp(48px, 7vw, 96px);
+}
+.about__statement {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.45rem, 3vw, 2.5rem);
+  line-height: 1.32;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+.about__facts {
+  display: grid;
+  margin: clamp(40px, 5vw, 64px) 0 0;
+  border-top: 1px solid var(--line);
+}
+.about__facts > div {
+  display: grid;
+  gap: 4px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--line);
+}
+.about__facts dt {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.about__facts dd {
+  margin: 0;
+  color: var(--ink-2);
+}
+
+.about__focus ol {
+  margin-top: 24px;
+  border-top: 1px solid var(--line);
+}
+.about__focus li {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--font-display);
+  font-size: clamp(1.02rem, 1.4vw, 1.25rem);
+  letter-spacing: -0.02em;
+  color: var(--ink-2);
+  transition: color 0.35s, padding-left 0.55s var(--ease-out), border-color 0.35s;
+}
+.about__focus li .mono {
+  font-size: 11px;
+  color: var(--muted);
+  transition: color 0.35s;
+}
+.about__focus li:hover {
+  color: var(--ink);
+  padding-left: 12px;
+  border-bottom-color: var(--line-3);
+}
+.about__focus li:hover .mono {
+  color: var(--accent);
+}
+
+@media (min-width: 1000px) {
+  .about__grid {
+    grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+    align-items: start;
+  }
+  .about__focus {
+    position: sticky;
+    top: calc(var(--nav-h) + 32px);
+  }
+}

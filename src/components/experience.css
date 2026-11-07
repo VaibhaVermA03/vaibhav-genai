@@ -1,0 +1,212 @@
+.tl {
+  position: relative;
+  display: grid;
+  gap: 56px;
+  padding-left: 34px;
+}
+.tl__spine {
+  position: absolute;
+  left: 5px;
+  top: 8px;
+  bottom: 0;
+  width: 1px;
+  background: var(--line-2);
+}
+.tl__fill {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--accent);
+  transform-origin: top;
+}
+.tl__item {
+  position: relative;
+  display: grid;
+  gap: 22px;
+}
+.tl__dot {
+  position: absolute;
+  left: -34px;
+  top: 7px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid var(--accent);
+}
+.tl__when {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.tl__when .mono {
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: var(--ink-2);
+}
+.tl__card {
+  padding: clamp(24px, 4vw, 48px);
+  border-radius: 16px;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  transition: border-color 0.5s;
+}
+.tl__card h3 {
+  font-size: clamp(1.9rem, 4.4vw, 3.6rem);
+  line-height: 1.02;
+}
+.tl__card:hover {
+  border-color: var(--line-3);
+}
+.tl__company {
+  margin-top: 12px;
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 1.8vw, 1.45rem);
+  color: var(--ink);
+}
+.tl__company span {
+  color: var(--muted);
+}
+.tl__points {
+  display: grid;
+  gap: 4px;
+  margin-top: 28px;
+}
+.tl__points li {
+  position: relative;
+  padding: 12px 0 12px 26px;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink-2);
+}
+.tl__points li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 22px;
+  width: 12px;
+  height: 1px;
+  background: var(--accent);
+}
+.tl__stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 28px;
+}
+
+@media (min-width: 900px) {
+  .tl {
+    padding-left: 0;
+  }
+  .tl__spine {
+    left: calc(28% - 1px);
+  }
+  .tl__item {
+    grid-template-columns: 28% 1fr;
+    gap: 0;
+  }
+  .tl__when {
+    align-self: start;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-right: 48px;
+    padding-top: 2px;
+  }
+  .tl__dot {
+    left: calc(28% - 6px);
+  }
+  .tl__card {
+    margin-left: 40px;
+  }
+}
+
+/* ───────────── Education ───────────── */
+.education {
+  padding-top: 0;
+}
+.edu {
+  display: grid;
+  gap: clamp(32px, 5vw, 64px);
+  padding-top: clamp(40px, 6vw, 72px);
+  border-top: 1px solid var(--line);
+}
+.edu__years {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(3.6rem, 13vw, 10rem);
+  letter-spacing: -0.055em;
+  line-height: 0.9;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.08em;
+}
+.edu__years .dash {
+  color: var(--muted);
+  font-weight: 300;
+}
+.edu__years .to {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(240, 237, 229, 0.85);
+}
+.edu__degree {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2.4rem);
+  letter-spacing: -0.025em;
+  line-height: 1.12;
+}
+.edu__field {
+  margin-top: 6px;
+  color: var(--ink-2);
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+}
+.edu__school {
+  margin-top: 22px;
+  max-width: 44ch;
+  color: var(--ink-2);
+}
+.edu__school strong {
+  display: block;
+  color: var(--ink);
+  font-weight: 500;
+}
+.edu__cgpa {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+}
+.edu__score {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2.6rem, 5vw, 4.2rem);
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.edu__score small {
+  font-size: 0.45em;
+  font-weight: 400;
+  color: var(--muted);
+  letter-spacing: 0;
+}
+.edu__track {
+  height: 3px;
+  max-width: 320px;
+  border-radius: 3px;
+  background: var(--line-2);
+  overflow: hidden;
+}
+.edu__fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--accent);
+  transform-origin: left;
+}
+
+@media (min-width: 900px) {
+  .edu {
+    grid-template-columns: 1.2fr 1fr 0.7fr;
+    align-items: end;
+  }
+}

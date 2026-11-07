@@ -1,0 +1,81 @@
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: #000;
+  color: var(--ink);
+  overflow: hidden;
+}
+/* the axis everything is built around: the exact centre of the screen */
+.intro__line {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  background: var(--accent);
+}
+.intro__name-wrap,
+.intro__tag-wrap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: grid;
+  justify-items: center;
+  padding-inline: 20px;
+  overflow: hidden;
+}
+.intro__name-wrap {
+  bottom: calc(50% + 24px);
+  padding-bottom: 6px;
+}
+.intro__tag-wrap {
+  top: calc(50% + 24px);
+  padding-top: 4px;
+}
+.intro__name {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.7rem, 6.2vw, 4.4rem);
+  letter-spacing: 0.12em;
+  margin-right: -0.12em; /* optically re-centre the tracked text */
+  line-height: 1.15;
+  white-space: nowrap;
+}
+.intro__tag {
+  display: grid;
+  gap: 6px;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: clamp(10px, 1.3vw, 13px);
+  letter-spacing: 0.3em;
+  color: var(--muted);
+}
+.intro__tag > span:last-child {
+  color: var(--accent);
+}
+.intro__controls {
+  position: absolute;
+  z-index: 3;
+  top: max(18px, env(safe-area-inset-top));
+  left: var(--pad);
+  right: var(--pad);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.intro__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 4px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: color 0.3s;
+}
+.intro__btn:hover,
+.intro__btn:focus-visible {
+  color: var(--ink);
+}

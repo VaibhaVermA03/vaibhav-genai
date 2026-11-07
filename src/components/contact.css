@@ -1,0 +1,109 @@
+/* ───────────── Contact: typography-driven ───────────── */
+.contact {
+  overflow: hidden;
+  padding-block: clamp(110px, 16vw, 240px);
+  border-top: 1px solid var(--line);
+  background: var(--bg);
+}
+.contact__inner {
+  position: relative;
+  display: grid;
+  gap: clamp(28px, 4vw, 48px);
+}
+.contact__title {
+  display: grid;
+  gap: 0.04em;
+  font-size: clamp(3rem, 11.5vw, 11rem);
+  line-height: 0.96;
+  letter-spacing: -0.05em;
+  text-transform: none;
+}
+.contact__line {
+  display: block;
+}
+.contact__line--mid {
+  color: var(--ink-2);
+}
+.contact__line--outline .char {
+  color: var(--accent);
+}
+.contact__line--outline .char:last-child {
+  color: var(--ink);
+}
+.contact__mail {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+.contact__email {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 3.2vw, 2.4rem);
+  letter-spacing: -0.03em;
+  word-break: break-word;
+  background: linear-gradient(currentColor, currentColor) left bottom / 0% 1px no-repeat;
+  transition: background-size 0.6s var(--ease-out), color 0.3s;
+}
+.contact__email:hover {
+  color: var(--accent);
+  background-size: 100% 1px;
+}
+.contact__cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+@media (max-width: 639px) {
+  .contact__cta .btn {
+    flex: 1 1 100%;
+  }
+}
+
+/* ───────────── 404 ───────────── */
+.nf {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  text-align: center;
+  padding: 32px var(--pad);
+  background: var(--bg);
+}
+.nf__inner {
+  position: relative;
+  display: grid;
+  gap: 22px;
+  justify-items: center;
+}
+.nf__code {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(7rem, 30vw, 22rem);
+  line-height: 0.82;
+  letter-spacing: -0.06em;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(240, 237, 229, 0.85);
+  background: var(--accent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  background-size: 100% 0%;
+  background-repeat: no-repeat;
+  background-position: bottom;
+  animation: nffill 3.5s var(--ease) 0.4s forwards;
+}
+@keyframes nffill {
+  to {
+    background-size: 100% 100%;
+  }
+}
+.nf h1 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.5rem, 3.4vw, 2.4rem);
+  letter-spacing: -0.03em;
+}
+.nf p:not(.nf__code) {
+  color: var(--ink-2);
+  max-width: 44ch;
+}

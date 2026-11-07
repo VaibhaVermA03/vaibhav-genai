@@ -1,0 +1,225 @@
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  padding-top: calc(var(--nav-h) + 12px);
+  padding-bottom: clamp(72px, 9vh, 110px);
+  overflow: hidden;
+  isolation: isolate;
+}
+/* content waits for the intro so its entrance can play */
+.hero:not(.is-ready) .hero__top,
+.hero:not(.is-ready) .hero__content,
+.hero:not(.is-ready) .hero__scroll {
+  visibility: hidden;
+}
+
+/* ── background ── */
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+/* one soft warm light, no colour wash */
+.hero__light {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(760px 620px at 76% 42%, rgba(217, 119, 69, 0.09), transparent 65%);
+}
+.hero__canvas {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1.6s var(--ease);
+}
+.hero__canvas.is-ready {
+  opacity: 1;
+}
+.hero__canvas canvas {
+  touch-action: pan-y;
+}
+.hero__vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(16, 16, 15, 0.7) 0%, rgba(16, 16, 15, 0.12) 50%, transparent 72%),
+    linear-gradient(0deg, var(--bg) 0%, transparent 26%);
+}
+
+/* SVG stand-in for the sculpture */
+.hero__fallback {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  transition: opacity 1.2s;
+}
+.hero__fallback.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+.hero__svg {
+  position: absolute;
+  right: 6%;
+  top: 50%;
+  width: min(40vw, 500px);
+  height: auto;
+  transform: translateY(-50%);
+}
+.hero__svg-spin {
+  transform-origin: 200px 200px;
+  animation: spin3d 90s linear infinite;
+}
+@keyframes spin3d {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ── top meta row ── */
+.hero__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 8px;
+}
+.hero__meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.hero__meta svg {
+  color: var(--accent);
+}
+.hero__social {
+  display: flex;
+  gap: 10px;
+}
+
+/* ── main content ── */
+.hero__content {
+  align-self: end;
+  display: grid;
+  gap: clamp(18px, 3vh, 30px);
+  padding-top: 40px;
+}
+.hero__name {
+  display: grid;
+  /* capped by viewport height too, so name + CTAs always fit above the fold */
+  font-size: clamp(3.2rem, min(14vw, 21vh), 12rem);
+  line-height: 0.9;
+  letter-spacing: -0.055em;
+  font-weight: 600;
+}
+.hero__line {
+  display: block;
+}
+/* VERMA starts as an outline and is filled with ivory by the timeline */
+.hero__line--outline .char {
+  color: rgba(240, 237, 229, 0);
+  -webkit-text-stroke: 1.4px rgba(240, 237, 229, 0.9);
+}
+.hero__copy {
+  display: grid;
+  gap: 20px;
+  max-width: 560px;
+}
+.hero__tagline {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.3rem, 2.4vw, 1.85rem);
+  line-height: 1.25;
+  letter-spacing: -0.03em;
+}
+.hero__desc {
+  color: var(--ink-2);
+  font-size: clamp(0.98rem, 1.2vw, 1.08rem);
+  line-height: 1.7;
+}
+.hero__cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+/* ── scroll indicator: one slow vertical line ── */
+.hero__scroll {
+  position: absolute;
+  right: var(--pad);
+  bottom: 28px;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  min-width: 44px;
+  min-height: 44px;
+  transition: color 0.3s;
+}
+.hero__scroll:hover {
+  color: var(--ink);
+}
+.hero__scroll-line {
+  width: 1px;
+  height: 72px;
+  background: var(--line-2);
+  position: relative;
+  overflow: hidden;
+}
+.hero__scroll-line::after {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 28px;
+  background: var(--accent);
+  animation: scrolldot 3.6s var(--ease-out) infinite;
+}
+@keyframes scrolldot {
+  from {
+    transform: translateY(-30px);
+  }
+  to {
+    transform: translateY(80px);
+  }
+}
+
+@media (min-width: 768px) {
+  .hero__scroll {
+    display: flex;
+  }
+}
+@media (max-width: 767px) {
+  .hero {
+    padding-bottom: 56px;
+  }
+  .hero__vignette {
+    background: linear-gradient(0deg, var(--bg) 0%, rgba(16, 16, 15, 0.6) 45%, transparent 78%);
+  }
+  .hero__svg {
+    right: 50%;
+    top: 24%;
+    width: 64vw;
+    transform: translate(50%, -50%);
+  }
+  .hero__line--outline .char {
+    -webkit-text-stroke-width: 1.2px;
+  }
+}
+@media (max-width: 479px) {
+  .hero__meta {
+    font-size: 11px;
+  }
+  .hero__time {
+    display: none;
+  }
+}
