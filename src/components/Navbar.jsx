@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Download } from 'lucide-react'
 import { navItems, site } from '../config/site'
@@ -126,6 +127,7 @@ export default function Navbar({ visible }) {
         </div>
       </div>
 
+      {createPortal(
       <AnimatePresence>
         {open && (
           <motion.div
@@ -166,7 +168,9 @@ export default function Navbar({ visible }) {
             </motion.div>
           </motion.div>
         )}
-      </AnimatePresence>
+      </AnimatePresence>,
+      document.body,
+      )}
     </header>
   )
 }
