@@ -118,7 +118,7 @@ export const projects = [
       'Finding management',
       'Human-approved GitHub comment publishing',
     ],
-    repo: 'https://github.com/SYNAXYS',
+    repo: 'https://github.com/VaibhaVermA03/SYNAXYS',
     live: 'https://synaxys.vercel.app',
   },
 ]
