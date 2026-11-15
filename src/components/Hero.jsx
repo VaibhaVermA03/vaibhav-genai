@@ -1,43 +1,13 @@
-import { lazy, Suspense, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { ArrowDown, ArrowUpRight, Github, Linkedin, MapPin } from 'lucide-react'
 import { gsap } from '../lib/gsap'
-import { hasWebGL, isSmallScreen } from '../lib/webgl'
 import { scrollToId } from '../lib/scroll'
 import { site } from '../config/site'
 import usePrefersReducedMotion from '../hooks/usePrefersReducedMotion'
-import ErrorBoundary from './ErrorBoundary'
 import SplitText from './SplitText'
 import Button from './Button'
+import HeroAnimation from './HeroAnimation'
 import './hero.css'
-
-// three.js lives in its own chunk and is only fetched when WebGL is usable
-const HeroScene = lazy(() => import('./HeroScene'))
-
-/** Polished, static-ish stand-in for the 3D sculpture (no WebGL / reduced motion). */
-function SculptureFallback() {
-  return (
-    <svg className="hero__svg" viewBox="0 0 400 400" aria-hidden="true">
-      <defs>
-        <linearGradient id="sf-a" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#3a3733" />
-          <stop offset="1" stopColor="#141312" />
-        </linearGradient>
-        <linearGradient id="sf-b" x1="1" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#f0ede5" stopOpacity="0.55" />
-          <stop offset="1" stopColor="#f0ede5" stopOpacity="0.05" />
-        </linearGradient>
-      </defs>
-      <g className="hero__svg-spin">
-        <polygon points="200,34 350,120 350,280 200,366 50,280 50,120" fill="url(#sf-a)" stroke="url(#sf-b)" />
-        <polygon points="200,34 350,120 200,206 50,120" fill="#1e1d1b" stroke="url(#sf-b)" />
-        <polygon points="200,206 350,120 350,280 200,366" fill="#171615" stroke="url(#sf-b)" />
-        <polygon points="200,206 50,120 50,280 200,366" fill="#22201d" stroke="url(#sf-b)" />
-        <polygon points="200,92 290,142 200,192 110,142" fill="none" stroke="#d97745" strokeOpacity="0.85" />
-        <polyline points="110,142 110,262 200,312 290,262 290,142" fill="none" stroke="#f0ede5" strokeOpacity="0.2" />
-      </g>
-    </svg>
-  )
-}
 
 function useIstClock() {
   const [time, setTime] = useState('')
@@ -55,12 +25,9 @@ export default function Hero({ ready }) {
   const root = useRef(null)
   const reduced = usePrefersReducedMotion()
   const time = useIstClock()
-  const [webgl] = useState(() => hasWebGL())
-  const [mobile] = useState(() => isSmallScreen())
   const [inView, setInView] = useState(true)
-  const [sceneReady, setSceneReady] = useState(false)
 
-  // pause the render loop when the hero is scrolled away
+  // pause the animation when the hero is scrolled away
   useEffect(() => {
     const io = new IntersectionObserver(([e]) => setInView(e.isIntersecting), { rootMargin: '80px' })
     if (root.current) io.observe(root.current)
@@ -95,25 +62,31 @@ export default function Hero({ ready }) {
     return () => ctx.revert()
   }, [ready, reduced])
 
-  const showScene = webgl && !reduced
+  // the illustration settles back slightly as the hero scrolls away
+  useLayoutEffect(() => {
+    if (reduced || !root.current) return undefined
+    const ctx = gsap.context(() => {
+      gsap.to('.hero__stage', {
+        scale: 0.93,
+        opacity: 0.25,
+        ease: 'none',
+        scrollTrigger: { trigger: root.current, start: 'top top', end: 'bottom top', scrub: true },
+      })
+    }, root)
+    return () => ctx.revert()
+  }, [reduced])
 
   return (
     <section id="top" ref={root} className={`hero ${ready ? 'is-ready' : ''}`} aria-labelledby="hero-title">
       <div className="hero__bg" aria-hidden="true">
         <div className="hero__light" />
-        <div className={`hero__fallback ${showScene && sceneReady ? 'is-hidden' : ''}`}>
-          <SculptureFallback />
-        </div>
-        {showScene && (
-          <div className={`hero__canvas ${sceneReady ? 'is-ready' : ''}`}>
-            <ErrorBoundary fallback={null}>
-              <Suspense fallback={null}>
-                <HeroScene active={inView && ready} mobile={mobile} onReady={() => setSceneReady(true)} />
-              </Suspense>
-            </ErrorBoundary>
-          </div>
-        )}
         <div className="hero__vignette" />
+      </div>
+
+      <div className="hero__stage" aria-hidden="true">
+        <div className="hero__stage-in">
+          <HeroAnimation active={inView && ready} reduced={reduced} />
+        </div>
       </div>
 
       <div className="hero__top container">

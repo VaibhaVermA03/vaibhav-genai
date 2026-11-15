@@ -27,18 +27,6 @@
   inset: 0;
   background: radial-gradient(760px 620px at 76% 42%, rgba(217, 119, 69, 0.09), transparent 65%);
 }
-.hero__canvas {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  transition: opacity 1.6s var(--ease);
-}
-.hero__canvas.is-ready {
-  opacity: 1;
-}
-.hero__canvas canvas {
-  touch-action: pan-y;
-}
 .hero__vignette {
   position: absolute;
   inset: 0;
@@ -47,33 +35,24 @@
     linear-gradient(0deg, var(--bg) 0%, transparent 26%);
 }
 
-/* SVG stand-in for the sculpture */
-.hero__fallback {
+/* ── illustration: lives where the 3D sculpture used to be ── */
+.hero__stage {
   position: absolute;
-  inset: 0;
-  display: grid;
-  transition: opacity 1.2s;
-}
-.hero__fallback.is-hidden {
-  opacity: 0;
-  pointer-events: none;
-}
-.hero__svg {
-  position: absolute;
-  right: 6%;
+  right: clamp(16px, 3.4vw, 56px);
   top: 50%;
-  width: min(40vw, 500px);
-  height: auto;
-  transform: translateY(-50%);
+  translate: 0 -46%;
+  width: min(36vw, 580px);
+  z-index: -1;
+  will-change: transform, opacity;
 }
-.hero__svg-spin {
-  transform-origin: 200px 200px;
-  animation: spin3d 90s linear infinite;
+.hero__stage-in {
+  opacity: 0;
+  transform: translateY(18px) scale(0.985);
+  transition: opacity 1.4s var(--ease) 0.9s, transform 1.6s var(--ease-out) 0.9s;
 }
-@keyframes spin3d {
-  to {
-    transform: rotate(360deg);
-  }
+.hero.is-ready .hero__stage-in {
+  opacity: 1;
+  transform: none;
 }
 
 /* ── top meta row ── */
@@ -198,18 +177,32 @@
     display: flex;
   }
 }
+/* tablets & phones: the illustration sits in the flow between the meta row and the headline */
+@media (max-width: 1099px) {
+  .hero {
+    grid-template-rows: auto auto 1fr;
+  }
+  .hero__stage {
+    position: relative;
+    right: auto;
+    top: auto;
+    translate: none;
+    z-index: 0;
+    order: 2;
+    width: calc(100% - 2 * var(--pad));
+    max-width: 540px;
+    margin: 18px auto 0;
+  }
+  .hero__content {
+    order: 3;
+  }
+}
 @media (max-width: 767px) {
   .hero {
     padding-bottom: 56px;
   }
   .hero__vignette {
     background: linear-gradient(0deg, var(--bg) 0%, rgba(16, 16, 15, 0.6) 45%, transparent 78%);
-  }
-  .hero__svg {
-    right: 50%;
-    top: 24%;
-    width: 64vw;
-    transform: translate(50%, -50%);
   }
   .hero__line--outline .char {
     -webkit-text-stroke-width: 1.2px;
